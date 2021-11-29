@@ -3,34 +3,41 @@ import { Input } from 'antd';
 import PeopleList from './components/PeopleList/PeopleList';
 import './App.css';
 import PersonInfo from './components/PersonInfo/PersonInfo';
-import Loader from './components/Loader/Loader';
+import { IPerson } from './types';
+import { Spin } from 'antd';
 
 const { Search } = Input;
 
 function App() {
-  const [people, setPeople] = useState<any[]>([]);
-  const [selectedPerson, setSelectedPerson] = useState({});
-  const [loading, setLoading] = useState(true);
+  const [people, setPeople] = useState<IPerson[]>([]);
+  const [selectedPerson, setSelectedPerson] = useState<IPerson>({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     fetch('https://swapi.dev/api/people')
       .then((response) => response.json())
       .then((json) => {
-        setPeople(json.results)
-        setLoading(false)
+        setPeople(json.results);
+        setLoading(false);
+        console.log(json.results);
       });
   }, []);
 
   const onSearch = (value: string) => {
     setPeople(
       people.filter((person) => {
-        return person.name.toLowerCase().includes(value.toLowerCase());
+        return person.name && person.name.toLowerCase().includes(value.toLowerCase());
       })
     );
   };
 
+  const getPerson = (name: string) => {
+    return people.find((person) => person.name === name);
+  };
+
   const updatePersonInfo = (name: string) => {
-    setSelectedPerson(people.find((person) => person.name === name)!);
+    setSelectedPerson(getPerson(name)!);
   };
 
   return (
@@ -43,14 +50,15 @@ function App() {
         style={{ width: 400 }}
       />
       <main className='content'>
-      {loading && <Loader />}
-        {people.length ? (
-          <PeopleList updatePersonInfo={updatePersonInfo} people={people}></PeopleList>
-        ) : loading ? null : (
-          <p>List of people is emplty</p>
-        )}
-
-        <PersonInfo person={selectedPerson}></PersonInfo>
+        <div className='person-list'>
+          {loading && <Spin size='large' />}
+          {people.length ? (
+            <PeopleList updatePersonInfo={updatePersonInfo} people={people}></PeopleList>
+          ) : loading ? null : (
+            <p>List of people is emplty</p>
+          )}
+        </div>
+        {true ? <PersonInfo person={selectedPerson}></PersonInfo> : <p>Select Person</p>}
       </main>
     </div>
   );

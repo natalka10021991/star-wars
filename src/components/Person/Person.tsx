@@ -1,23 +1,10 @@
 import React from 'react'
 import { Button } from 'antd';
-
-export interface PersonOptions {
-  id?: number,
-  name?: string,
-  gender?: string,
-  hair_color?: string,
-  skin_color?: string,
-  eye_color?: string,
-  height?: string,
-  mass?: string,
-  birth_year?: string,
-  homeworld?: string
-  
-}
+import {IPerson} from '../../types'
 
 export interface PersonProps
-  extends PersonOptions {
-    updatePersonInfo: any
+  extends IPerson {
+    updatePersonInfo: (name: string) => void
 }
 
 
@@ -25,7 +12,7 @@ const Person: React.FC<PersonProps> = ({updatePersonInfo, name}, ...props) => {
 
   return (
     <div>
-      <Button type="link" block onClick={() => updatePersonInfo(name)}>- {name} -</Button>
+      <Button type="link" block onClick={() => updatePersonInfo(name!)}>- {name} -</Button>
     </div>
   )
 }

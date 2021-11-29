@@ -1,19 +1,18 @@
 import React from 'react';
 import Person from '../Person/Person';
-import { PersonOptions } from '../Person/Person';
+import {IPerson} from '../../types'
 
 interface PeopleListProps {
-  people: PersonOptions[];
-  updatePersonInfo: (value: string) => void;
+  people: IPerson[];
+  // getPerson: (name: string) => IPerson
+  updatePersonInfo: (name: string) => void;
 }
-
-
 
 const PeopleList: React.FC<PeopleListProps> = ({ people, updatePersonInfo }) => {
 
   return (
-    <div className='person-list'>
-      {people.map((person: any, index: number) => {
+    <>
+      {people.map((person, index: number) => {
         return (
           <Person
             name={person.name}
@@ -24,7 +23,7 @@ const PeopleList: React.FC<PeopleListProps> = ({ people, updatePersonInfo }) => 
           ></Person>
         );
       })}
-    </div>
+    </>
   );
 };
 
