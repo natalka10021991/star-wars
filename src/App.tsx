@@ -1,37 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { Input } from 'antd';
+import { useState, useEffect, useMemo, ChangeEvent } from 'react';
+import { Input, Spin } from 'antd';
 import PeopleList from './components/PeopleList/PeopleList';
-import './App.css';
 import PersonInfo from './components/PersonInfo/PersonInfo';
-import { ApiPerson, IPerson } from './types';
-import { Spin } from 'antd';
+import { getPeople } from './services/people';
+import {  IPerson } from './types';
+import './App.css';
 
-const { Search } = Input;
-
-const getId = (entity: ApiPerson): string => {
-  const regExp = /\/(\d*)\/$/;
-  const result = entity.url.match(regExp);
-  if (result && result[1]) {
-    return result[1];
-  }
-  return '';
-};
 
 function App() {
+  const [search, setSearch] = useState("")
   const [people, setPeople] = useState<IPerson[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<IPerson | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const filteredPeople = useMemo<IPerson[]>(() => {
+    if (search) {
+      return people.filter(({name}) => name.toLowerCase().includes(search.toLowerCase()))
+    }
+    return people
+  }, [people, search])
+
+  const onChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value)
+  }
+
   useEffect(() => {
     const fetchPeople = async () => {
       setLoading(true);
-      const json = await fetch('https://swapi.dev/api/people');
-      const data: { results: ApiPerson[] } = await json.json();
-      const transformedPeople = data.results.map((person) => ({
-        ...person,
-        id: getId(person),
-      }));
-      setPeople(transformedPeople);
+      const peopleData = await getPeople()
+      setPeople(peopleData);
       setLoading(false);
     };
 
@@ -57,14 +54,6 @@ function App() {
     //   });
   }, []);
 
-  const onSearch = (value: string) => {
-    setPeople(
-      people.filter((person) => {
-        return person.name && person.name.toLowerCase().includes(value.toLowerCase());
-      })
-    );
-  };
-
   const getPerson = (id: string) => {
     return people.find((person) => person.id === id);
   };
@@ -76,25 +65,37 @@ function App() {
   return (
     <div className='wrapper'>
       <h1>Star Wars</h1>
-      <Search
+      <Input 
         placeholder='input search text'
-        onSearch={onSearch}
-        enterButton
-        style={{ width: 400 }}
-      />
+        onChange={onChangeHandle}
+        value={search}/>
       <main className='content'>
         <div className='person-list'>
           {loading && <Spin size='large' />}
           {people.length ? (
-            <PeopleList updatePersonInfo={updatePersonInfo} people={people}></PeopleList>
+            <PeopleList updatePersonInfo={updatePersonInfo} people={filteredPeople} />
           ) : loading ? null : (
             <p>List of people is emplty</p>
           )}
         </div>
-        {true ? <PersonInfo person={selectedPerson}></PersonInfo> : <p>Select Person</p>}
+        <PersonInfo person={selectedPerson} />
       </main>
     </div>
   );
 }
 
 export default App;
+
+
+/**
+ * 1. Заменить компонент search на ant input, заменить функцию onSearch на onChange +
+ * 2. Добавить filteredPeople(дополнительная переменная для отфильтрованного массива людей) - переделать useMemo на useState
+ * 3. Зарефакторить PeopleList компонент
+ * ---
+ * 4. Вынести fetch запрос в отдельный файл
+ * https://tailwindcss.com/ UI-библиотека
+ */
+
+// create a util file
+// search on input
+// 
