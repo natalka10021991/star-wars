@@ -55,11 +55,11 @@ function App() {
   }, []);
 
   const getPerson = (id: string) => {
-    return people.find((person) => person.id === id);
+    return people.find((person) => person.id === id) || null;
   };
 
   const updatePersonInfo = (id: string) => {
-    setSelectedPerson(getPerson(id)!);
+    setSelectedPerson(getPerson(id));
   };
 
   return (
