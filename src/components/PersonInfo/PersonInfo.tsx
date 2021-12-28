@@ -1,19 +1,25 @@
 import React from 'react';
 import { IPerson } from '../../types';
+import { getImageUrl } from './utils'
+import { Card } from 'antd';
+const { Meta } = Card;
+
 
 interface PersonInfoProps {
   person: IPerson | null;
 }
 
 const PersonInfo: React.FC<PersonInfoProps> = ({ person }) => {
-  if (person) {
+
+  if (!person) return <div className="empty-info">Select a person</div>
     return (
-      <div>
-        <div className='person-info'>
-          <img
-            src={`https://starwars-visualguide.com/assets/img/characters/${person.id}.jpg`}
-            alt=''
-          />
+
+      <Card
+        hoverable
+        style={{ width: 300}}
+        cover={<img alt={person.id} src={getImageUrl(person.id)} />}
+      >
+        <Meta title={person.name} />
           <p>Name: {person.name}</p>
           <p>Hair Color: {person.hair_color}</p>
           <p>Eye color: {person.eye_color}</p>
@@ -22,12 +28,9 @@ const PersonInfo: React.FC<PersonInfoProps> = ({ person }) => {
           <p>Mass: {person.mass}</p>
           <p>Birth Year: {person.birth_year}</p>
           <p>Homeworld: {person.homeworld}</p>
-        </div>
-      </div>
-    );
-  } else {
-    return <div>is empty</div>;
-  }
+      </Card>
+        
+    ); 
 };
 
 export default PersonInfo;
