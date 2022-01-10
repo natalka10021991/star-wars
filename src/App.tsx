@@ -1,7 +1,6 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Input, Spin } from 'antd';
 import PeopleList from './components/PeopleList/PeopleList';
-
 import PersonInfo from './components/PersonInfo/PersonInfo';
 import { getPeople } from './services/people';
 import { IPerson } from './types';
@@ -11,21 +10,20 @@ function App() {
   const [people, setPeople] = useState<IPerson[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<IPerson | null>(null);
   const [loading, setLoading] = useState(false);
-  const [filteredPeople, setFilteredPeople] = useState<IPerson[]>([])
+  const [filteredPeople, setFilteredPeople] = useState<IPerson[]>([]);
 
   useEffect(() => {
     const fetchPeople = async () => {
       setLoading(true);
       const peopleData = await getPeople();
       setPeople(peopleData);
-      setFilteredPeople(peopleData)
+      setFilteredPeople(peopleData);
       setLoading(false);
     };
     fetchPeople();
   }, []);
 
   const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     const searchString = e.target.value;
     setFilteredPeople(
       people.filter((person) => {
@@ -47,13 +45,22 @@ function App() {
       <h1>Star Wars</h1>
       <Input placeholder='input search text' onChange={onChangeHandler} />
       <main className='content'>
-        {loading && <div className="empty-list"><Spin size='large' /></div>}
+        {loading && (
+          <div className='empty-list'>
+            <Spin size='large' />
+          </div>
+        )}
         {people.length ? (
           <PeopleList updatePersonInfo={updatePersonInfo} people={filteredPeople} />
         ) : loading ? null : (
           <p>List of people is emplty</p>
         )}
-        <PersonInfo person={selectedPerson} />
+        {selectedPerson ? (
+          <PersonInfo person={selectedPerson} />
+        ) : (
+          <div className="empty-info">Select a person</div>
+        )}
+        
       </main>
     </div>
   );

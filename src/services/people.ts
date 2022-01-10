@@ -17,15 +17,14 @@ const getId = (entity: ApiPerson): string => {
 };
 
 const transformedPeople = (people: ApiPerson[]): IPerson[] => {
-  return people.map((person) => ({  // почему тут круглые скобки
+  return people.map((person) => ({
     ...person,
     id: getId(person)
-
   }))
 }
   
 export const getPeople = async (): Promise<IPerson[]> => {
-  const data = await fetch(peopleUrl) // почему тут не указываем тип,а для json указываем
+  const data = await fetch(peopleUrl)
   const json: PeopleApiResult = await data.json()
   return transformedPeople(json.results)
 }
