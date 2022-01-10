@@ -1,6 +1,7 @@
 import React from 'react';
-import Person from '../Person/Person';
+import { List, Avatar, Button } from 'antd';
 import { IPerson } from '../../types';
+import { getImageUrl } from '../PersonInfo/utils';
 
 interface PeopleListProps {
   people: IPerson[];
@@ -10,19 +11,22 @@ interface PeopleListProps {
 
 const PeopleList: React.FC<PeopleListProps> = ({ people, updatePersonInfo }) => {
   return (
-    <>
-      {people &&
-        people.map((person, index: number) => {
-          return (
-            <Person
-              id={person.id}
-              name={person.name}
-              updatePersonInfo={updatePersonInfo}
-              key={index}
-            ></Person>
-          );
-        })}
-    </>
+    <List
+      itemLayout='horizontal'
+      dataSource={people}
+      renderItem={(item) => (
+        <List.Item>
+          <List.Item.Meta
+            avatar={<Avatar src={getImageUrl(item.id)} />}
+            title={
+              <Button type='text' block onClick={() => updatePersonInfo(item.id)}>
+                {item.name}
+              </Button>
+            }
+          />
+        </List.Item>
+      )}
+    />
   );
 };
 

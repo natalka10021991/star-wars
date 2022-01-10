@@ -1,5 +1,5 @@
 .wrapper {
-  width: 1200px;
+  width: 900px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -16,26 +16,20 @@
 .content {
   padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: flex-start;
 }
 
-.person-list {
-  width: 600px;
-  margin: 10px;
+.empty-info, .empty-list {
+  min-width: 300px;
+  min-height: 300px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.person-info {
-  width: 600px;
-  border: 1px solid #ccc;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin: 10px;
-  padding: 20px;
+.ant-list {
+  min-width: 300px;
 }
+
