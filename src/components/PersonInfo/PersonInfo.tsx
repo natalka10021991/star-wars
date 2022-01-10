@@ -1,7 +1,7 @@
 import React from 'react';
+import { Card } from 'antd';
 import { IPerson } from '../../types';
 import { getImageUrl } from './utils';
-import { Card } from 'antd';
 const { Meta } = Card;
 
 interface PersonInfoProps {

@@ -1,6 +1,6 @@
 import React from 'react';
-import { IPerson } from '../../types';
 import { List, Avatar, Button } from 'antd';
+import { IPerson } from '../../types';
 import { getImageUrl } from '../PersonInfo/utils';
 
 interface PeopleListProps {
