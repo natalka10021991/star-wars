@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
+import './Nav';
 
 interface NavProps {}
 
 const Nav: React.FC<NavProps> = ({}) => {
   return (
-    <Menu style={{ width: 400, justifyContent: 'center', marginBottom: 50 }} mode='horizontal'>
+    <Menu className='menu' mode='horizontal'>
       <Menu.Item>
         <Link to='/'>Home</Link>
       </Menu.Item>
@@ -19,7 +20,6 @@ const Nav: React.FC<NavProps> = ({}) => {
       <Menu.Item>
         <Link to='/starships'>Starships</Link>
       </Menu.Item>
-      
     </Menu>
   );
 };

@@ -8,7 +8,7 @@ interface PlanetsListProps {
   updatePlanetInfo: (name: string) => void;
 }
 
-const PlanetsList: React.FC<PlanetsListProps> = ({ planets, updatePlanetInfo }) => {
+const PlanetsList: React.VFC<PlanetsListProps> = ({ planets, updatePlanetInfo }) => {
   return (
     <List
       itemLayout='horizontal'

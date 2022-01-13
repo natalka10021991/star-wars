@@ -9,7 +9,7 @@ interface PeopleListProps {
   updatePersonInfo: (name: string) => void;
 }
 
-const PeopleList: React.FC<PeopleListProps> = ({ people, updatePersonInfo }) => {
+const PeopleList: React.VFC<PeopleListProps> = ({ people, updatePersonInfo }) => {
   return (
     <List
       itemLayout='horizontal'

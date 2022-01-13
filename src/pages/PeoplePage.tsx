@@ -6,9 +6,7 @@ import { getPeople } from '../services/people';
 import { IPerson } from '../types';
 import '../App.css';
 
-interface PeopleProps {}
-
-const People: React.FC<PeopleProps> = ({}) => {
+const PeoplePage: React.FC = () => {
   const [people, setPeople] = useState<IPerson[]>([]);
   const [selectedPerson, setSelectedPerson] = useState<IPerson | null>(null);
   const [loading, setLoading] = useState(false);
@@ -25,7 +23,7 @@ const People: React.FC<PeopleProps> = ({}) => {
     fetchPeople();
   }, []);
 
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
     const searchString = e.target.value;
     setFilteredPeople(
       people.filter((person) => {
@@ -42,28 +40,29 @@ const People: React.FC<PeopleProps> = ({}) => {
     setSelectedPerson(getPerson(id)!);
   };
   return (
-    <>
+    <div>
       <h2>People</h2>
-      <Input placeholder='inpu search text' onChange={onChangeHandler} />
-      <main className='content'>
+      <Input placeholder='inpu search text' onChange={onChangeHandle} />
+      <div className='content'>
         {loading && (
           <div className='empty-list'>
             <Spin size='large' />
           </div>
         )}
-        {people.length ? (
-          <PeopleList updatePersonInfo={updatePersonInfo} people={filteredPeople} />
-        ) : loading ? null : (
+        {!people.length && !loading ? (
           <p>List of people is emplty</p>
+        ) : (
+          <PeopleList updatePersonInfo={updatePersonInfo} people={filteredPeople} />
         )}
+
         {selectedPerson ? (
           <PersonInfo person={selectedPerson} />
         ) : (
           <div className='empty-info'>Select a person</div>
         )}
-      </main>
-    </>
+      </div>
+    </div>
   );
 };
 
-export default People;
+export default PeoplePage;

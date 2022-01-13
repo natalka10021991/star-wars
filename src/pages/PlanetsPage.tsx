@@ -1,15 +1,11 @@
-import React, {useState, useEffect, ChangeEvent} from 'react'
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Input, Spin } from 'antd';
 import { IPlanet } from '../types';
 import PlanetsList from '../components/PlanetsList/PlanetsList';
 import { getPlanets } from '../services/planets';
 import PlanetInfo from '../components/PlanetInfo/PlanetInfo';
 
-interface PlanetsProps {
-}
-
-
-const Planets: React.FC<PlanetsProps> = ({}) => {
+const PlanetsPage: React.FC = () => {
   const [planets, setPlanets] = useState<IPlanet[]>([]);
   const [selectedPlanet, setSelectedPlanet] = useState<IPlanet | null>(null);
   const [loading, setLoading] = useState(false);
@@ -26,28 +22,28 @@ const Planets: React.FC<PlanetsProps> = ({}) => {
     fetchPlanets();
   }, []);
 
-const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-  const searchString = e.target.value;
-  setFilteredPlanets(
-    planets.filter((planet) => {
-      return planet.name && planet.name.toLowerCase().includes(searchString.toLowerCase());
-    })
-  );
-};
+  const onChangeHandle = (e: ChangeEvent<HTMLInputElement>) => {
+    const searchString = e.target.value;
+    setFilteredPlanets(
+      planets.filter((planet) => {
+        return planet.name && planet.name.toLowerCase().includes(searchString.toLowerCase());
+      })
+    );
+  };
 
-const getPlanet = (id: string) => {
-  return planets.find((planet) => planet.id === id);
-};
+  const getPlanet = (id: string) => {
+    return planets.find((planet) => planet.id === id);
+  };
 
-const updatePlanetInfo = (id: string) => {
-  setSelectedPlanet(getPlanet(id)!);
-};
+  const updatePlanetInfo = (id: string) => {
+    setSelectedPlanet(getPlanet(id)!);
+  };
 
   return (
-    <>
+    <div>
       <h2>Planets</h2>
-      <Input placeholder='inpu search text' onChange={onChangeHandler} />
-      <main className='content'>
+      <Input placeholder='inpu search text' onChange={onChangeHandle} />
+      <div className='content'>
         {loading && (
           <div className='empty-list'>
             <Spin size='large' />
@@ -63,9 +59,9 @@ const updatePlanetInfo = (id: string) => {
         ) : (
           <div className='empty-info'>Select a planet</div>
         )}
-      </main>
-    </>
-  )
-}
+      </div>
+    </div>
+  );
+};
 
-export default Planets
+export default PlanetsPage;
