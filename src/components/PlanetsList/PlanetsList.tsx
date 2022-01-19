@@ -1,24 +1,24 @@
 import React from 'react';
 import { List, Avatar, Button } from 'antd';
-import { IPerson } from '../../types';
+import { IPlanet } from '../../types';
 import { getImageUrl } from '../PersonInfo/utils';
 
-interface PeopleListProps {
-  people: IPerson[];
-  updatePersonInfo: (name: string) => void;
+interface PlanetsListProps {
+  planets: IPlanet[];
+  updatePlanetInfo: (name: string) => void;
 }
 
-const PeopleList: React.VFC<PeopleListProps> = ({ people, updatePersonInfo }) => {
+const PlanetsList: React.VFC<PlanetsListProps> = ({ planets, updatePlanetInfo }) => {
   return (
     <List
       itemLayout='horizontal'
-      dataSource={people}
+      dataSource={planets}
       renderItem={(item) => (
         <List.Item>
           <List.Item.Meta
             avatar={<Avatar src={getImageUrl(item.id)} />}
             title={
-              <Button type='text' block onClick={() => updatePersonInfo(item.id)}>
+              <Button type='text' block onClick={() => updatePlanetInfo(item.id)}>
                 {item.name}
               </Button>
             }
@@ -29,4 +29,4 @@ const PeopleList: React.VFC<PeopleListProps> = ({ people, updatePersonInfo }) =>
   );
 };
 
-export default PeopleList;
+export default PlanetsList;
