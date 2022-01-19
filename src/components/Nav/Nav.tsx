@@ -3,9 +3,7 @@ import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
 import './Nav';
 
-interface NavProps {}
-
-const Nav: React.FC<NavProps> = ({}) => {
+const Nav: React.FC = () => {
   return (
     <Menu className='menu' mode='horizontal'>
       <Menu.Item>

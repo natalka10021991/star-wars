@@ -5,7 +5,6 @@ import { getImageUrl } from '../PersonInfo/utils';
 
 interface PeopleListProps {
   people: IPerson[];
-  // getPerson: (name: string) => IPerson
   updatePersonInfo: (name: string) => void;
 }
 

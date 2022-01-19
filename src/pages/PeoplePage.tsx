@@ -39,28 +39,37 @@ const PeoplePage: React.FC = () => {
   const updatePersonInfo = (id: string) => {
     setSelectedPerson(getPerson(id)!);
   };
+
   return (
     <div>
-      <h2>People</h2>
-      <Input placeholder='inpu search text' onChange={onChangeHandle} />
-      <div className='content'>
-        {loading && (
-          <div className='empty-list'>
-            <Spin size='large' />
-          </div>
-        )}
-        {!people.length && !loading ? (
-          <p>List of people is emplty</p>
-        ) : (
-          <PeopleList updatePersonInfo={updatePersonInfo} people={filteredPeople} />
-        )}
+      {loading ? (
+        <div className='empty-list'>
+          <Spin size='large' />
+        </div>
+      ) : (
+        <>
+          <h2>People</h2>
+          <Input placeholder='inpu search text' onChange={onChangeHandle} />
+          <div className='content'>
+            {loading && (
+              <div className='empty-list'>
+                <Spin size='large' />
+              </div>
+            )}
+            {!people.length && !loading ? (
+              <p>List of people is emplty</p>
+            ) : (
+              <PeopleList updatePersonInfo={updatePersonInfo} people={filteredPeople} />
+            )}
 
-        {selectedPerson ? (
-          <PersonInfo person={selectedPerson} />
-        ) : (
-          <div className='empty-info'>Select a person</div>
-        )}
-      </div>
+            {selectedPerson ? (
+              <PersonInfo person={selectedPerson} />
+            ) : (
+              <div className='empty-info'>Select a person</div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

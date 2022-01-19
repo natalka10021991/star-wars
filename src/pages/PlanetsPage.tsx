@@ -41,25 +41,28 @@ const PlanetsPage: React.FC = () => {
 
   return (
     <div>
-      <h2>Planets</h2>
-      <Input placeholder='inpu search text' onChange={onChangeHandle} />
-      <div className='content'>
-        {loading && (
-          <div className='empty-list'>
-            <Spin size='large' />
+      {loading ? (
+        <div className='empty-list'>
+          <Spin size='large' />
+        </div>
+      ) : (
+        <>
+          <h2>Planets</h2>
+          <Input placeholder='inpu search text' onChange={onChangeHandle} />
+          <div className='content'>
+            {planets.length ? (
+              <PlanetsList updatePlanetInfo={updatePlanetInfo} planets={filteredPlanets} />
+            ) : loading ? null : (
+              <p>List of people is emplty</p>
+            )}
+            {selectedPlanet ? (
+              <PlanetInfo planet={selectedPlanet} />
+            ) : (
+              <div className='empty-info'>Select a planet</div>
+            )}
           </div>
-        )}
-        {planets.length ? (
-          <PlanetsList updatePlanetInfo={updatePlanetInfo} planets={filteredPlanets} />
-        ) : loading ? null : (
-          <p>List of people is emplty</p>
-        )}
-        {selectedPlanet ? (
-          <PlanetInfo planet={selectedPlanet} />
-        ) : (
-          <div className='empty-info'>Select a planet</div>
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 };
