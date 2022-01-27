@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { FC } from "react";
 
-const HomePage: React.FC = () => {
+/**
+ * Импортируй конкретные элементы из библиотек, вместо react.FC
+ */
+
+const HomePage: FC = () => {
   return (
     <div>
       <h1>This is homepage of StarWars</h1>
